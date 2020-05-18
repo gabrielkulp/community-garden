@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tomato Garden</title>
+		<link rel="stylesheet" href="../style.css">
+	</head>
+	<body>
+		<nav>
+			<a href="index.html">Admin Home</a>
+		</nav>
+		<h1>Varieties Controls</h1>
+		<h2>Find Variety</h2>
+		<p>Find all the plots in which a particular variety is growing.</p>
+		<form method="POST">
+			<select id="variety" name="variety">
+				<option value="3">Argentina Cherry Tomato</option>
+				<option value="4">Esterina Tomato</option>
+				<option value="6">Emerald Evergreen Tomato</option>
+				<option value="7">Virginia Sweets Tomato</option>
+				<option value="8">Rosella Tomato</option>
+			</select>
+			<input type="submit" value="search">
+		</form>
+		<h2>Add New Variety</h2>
+		<form method="POST">
+			<input type="hidden" id="action" name="action" value="add">
+			Variety <input type="text" id="variety" name="variety">
+			<br>
+			Season <input type="text" id="season" name="season">
+			<br>
+			<input type="submit" value="Add">
+		</form>
+		<table>
+			<tr>
+				<th>Variety</th>
+				<th>Season</th>
+				<th>Update</th>
+				<th>Delete</th>
+			</tr>
+			<tr>
+				<form method="POST">
+					<input type="hidden" id="variety_id" name="variety_id" value="3">
+					<td>
+						<input type="text" id="name" name="name" value="Argentina Cherry Tomato">
+					</td>
+					<td>
+						<input type="text" id="name" name="name" value="Late Summer">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
+				</form>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="3">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<form method="POST">
+					<input type="hidden" id="variety_id" name="variety_id" value="4">
+					<td>
+						<input type="text" id="name" name="name" value="Esterina Tomato">
+					</td>
+					<td>
+						<input type="text" id="name" name="name" value="Early Fall">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
+				</form>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="4">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<form method="POST">
+					<input type="hidden" id="variety_id" name="variety_id" value="6">
+					<td>
+						<input type="text" id="name" name="name" value="Emerald Evergreen Tomato">
+					</td>
+					<td>
+						<input type="text" id="name" name="name" value="Late Spring">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
+				</form>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="6">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<form method="POST">
+					<input type="hidden" id="variety_id" name="variety_id" value="7">
+					<td>
+						<input type="text" id="name" name="name" value="Virginia Sweets Tomato">
+					</td>
+					<td>
+						<input type="text" id="name" name="name" value="Late Summer">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
+				</form>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="7">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<form method="POST">
+					<input type="hidden" id="variety_id" name="variety_id" value="8">
+					<td>
+						<input type="text" id="name" name="name" value="Rosella Tomato">
+					</td>
+					<td>
+						<input type="text" id="name" name="name" value="Late Fall">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
+				</form>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="8">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
