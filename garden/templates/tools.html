@@ -22,7 +22,7 @@
 		</select>
 		<br>
 		Checked Out To (can be null) <select id="person" name="person">
-			<option value="">Checked In</option>
+			<option value="-1">Checked In</option>
 			{% for person in people %}
 				<option value="{{ person['person_id'] }}">
 					{{ person['first_name'] }} {{ person['last_name'] }}
