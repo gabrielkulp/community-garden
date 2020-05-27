@@ -21,77 +21,45 @@
 	<br>
 	<table>
 		<tr>
-			<th>Person</th>
-			<th>Change Name</th>
-			<th>Change Email</th>
-			<th>Reset Password</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
 			<th>Delete</th>
 		</tr>
-		<tr>
-			<td>Harold Miller</td>
-			<td>
-				<form method="POST">
-					<input type="text" id="name" name="name" value="Harold Miller">
-					<input type="hidden" id="action" name="action" value="changename">
-					<input type="hidden" id="person_id" name="person_id" value="2">
-					<input type="submit" value="Change Name">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="email" id="name" name="name" value="harold.miller@email.corp">
-					<input type="hidden" id="action" name="action" value="changeemail">
-					<input type="hidden" id="person_id" name="person_id" value="2">
-					<input type="submit" value="Change Email">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="resetpw">
-					<input type="hidden" id="person_id" name="person_id" value="2">
-					<input type="submit" value="Reset Password">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="person_id" name="person_id" value="2">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<td>Nancy Mulligan</td>
-			<td>
-				<form method="POST">
-					<input type="text" id="name" name="name" value="Nancy Mulligan">
-					<input type="hidden" id="action" name="action" value="changename">
-					<input type="hidden" id="person_id" name="person_id" value="5">
-					<input type="submit" value="Change Name">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="email" id="name" name="name" value="nancy.mulligan@email.corp">
-					<input type="hidden" id="action" name="action" value="changeemail">
-					<input type="hidden" id="person_id" name="person_id" value="5">
-					<input type="submit" value="Change Email">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="resetpw">
-					<input type="hidden" id="person_id" name="person_id" value="5">
-					<input type="submit" value="Reset Password">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="person_id" name="person_id" value="5">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
+		{% for person in people %}
+			<tr>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="person_id" name="person_id" value="{{ person.person_id }}">
+						<input type="hidden" id="action" name="action" value="first_name">
+						<input type="text" id="name" name="name" value="{{ person.first_name}}">
+						<input type="submit" value="Update">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="person_id" name="person_id" value="{{ person.person_id }}">
+						<input type="hidden" id="action" name="action" value="last_name">
+						<input type="text" id="name" name="name" value="{{ person.last_name}}">
+						<input type="submit" value="Update">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="person_id" name="person_id" value="2">
+						<input type="hidden" id="action" name="action" value="email">
+						<input type="email" id="name" name="name" value="{{ person.email }}">
+						<input type="submit" value="Update">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="person_id" name="person_id" value="{{ person.person_id }}">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
 	</table>
 {% endblock %}

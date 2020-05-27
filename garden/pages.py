@@ -28,7 +28,10 @@ def people():
 	db = get_db()
 
 	if request.method == "GET":
-		return render_template("people.html")
+		people = db.execute(
+			"SELECT * FROM people;"
+		).fetchall()
+		return render_template("people.html", people=people)
 	
 	action = request.form.get("action")
 
