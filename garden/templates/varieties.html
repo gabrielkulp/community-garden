@@ -11,7 +11,7 @@
 	<p>Find all the plots in which a particular variety is growing.</p>
 	<form method="POST">
 		<input type="hidden" id="action" name="action" value="search">
-		<select id="variety" name="variety">
+		<select required="true" required="true" id="variety" name="variety">
 			<option value="3">Argentina Cherry Tomato</option>
 			<option value="4">Esterina Tomato</option>
 			<option value="6">Emerald Evergreen Tomato</option>
@@ -23,9 +23,9 @@
 	<h2>Add New Variety</h2>
 	<form action="{{ url_for('pages.varieties') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
-		Variety <input type="text" id="name" name="name">
+		Variety <input type="text" required="true" id="name" name="name">
 		<br>
-		Season <input type="text" id="season" name="season">
+		Season <input type="text" required="true" id="season" name="season">
 		<br>
 		<input type="submit" value="Add">
 	</form>
@@ -41,10 +41,10 @@
 				<form method="POST">
 					<input type="hidden" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
 					<td>
-						<input type="text" id="name" name="name" value="{{ variety.name }}">
+						<input type="text" required="true" id="name" name="name" value="{{ variety.name }}">
 					</td>
 					<td>
-						<input type="text" id="season" name="season" value="{{ variety.season }}">
+						<input type="text" required="true" id="season" name="season" value="{{ variety.season }}">
 					</td>
 					<td>
 						<input type="submit" value="Update">
@@ -52,8 +52,8 @@
 				</form>
 				<td>
 					<form method="POST">
-						<input type="hidden" id="action" name="action" value="delete">
-						<input type="hidden" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
+						<input type="hidden" required="true" id="action" name="action" value="delete">
+						<input type="hidden" required="true" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
 						<input type="submit" value="Delete">
 					</form>
 				</td>

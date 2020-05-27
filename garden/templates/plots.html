@@ -10,9 +10,9 @@
 	<h2>Add New Plot</h2>
 	<form action="{{ url_for('pages.plots') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
-		Location <input type="text" id="location" name="location">
+		Location <input required="true" type="text" id="location" name="location">
 		<br>
-		Size <input type="number" id="length" name="length" placeholder="L"> x <input type="number" id="width" name="width" placeholder="W">
+		Size <input type="number" required="true" id="length" name="length" placeholder="L"> x <input type="number" required="true" id="width" name="width" placeholder="W">
 		<br>
 		<input type="submit" value="Add">
 	</form>
@@ -30,19 +30,19 @@
 				<td><a href="{{ url_for('pages.plot', id=plot['plot_id']) }}">Plot {{ plot['plot_id'] }}</a></td>
 				<td>
 					<form method="POST">
-						<input type="text" id="name" name="name" value="{{ plot['location'] }}">
-						<input type="hidden" id="action" name="action" value="changelocation">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="hidden" id="action" name="action" value="changelocation">
+						<input type="text" required="true" id="name" name="name" value="{{ plot['location'] }}">
 						<input type="submit" value="Change Name">
 					</form>
 				</td>
 				<td>
 					<form method="POST">
-						<input type="number" id="length" name="length" value="{{ plot['length'] }}">
-						x
-						<input type="number" id="width" name="width" value="{{ plot['width'] }}">
-						<input type="hidden" id="action" name="action" value="changesize">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="hidden" id="action" name="action" value="changesize">
+						<input type="number" required="true" id="length" name="length" value="{{ plot['length'] }}">
+						x
+						<input type="number" required="true" id="width" name="width" value="{{ plot['width'] }}">
 						<input type="submit" value="Change Size">
 					</form>
 				</td>
@@ -53,8 +53,8 @@
 				</td>
 				<td>
 					<form method="POST">
-						<input type="hidden" id="action" name="action" value="delete">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="hidden" id="action" name="action" value="delete">
 						<input type="submit" value="Delete">
 					</form>
 				</td>

@@ -10,9 +10,9 @@
 	<h2>Add New Tool</h2>
 	<form action="{{ url_for('pages.tools') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
-		Name <input type="text" id="name" name="name">
+		Name <input type="text" required="true" id="name" name="name">
 		<br>
-		Condition <select id="condition" name="condition">
+		Condition <select required="true" id="condition" name="condition">
 			<option value="1">New</option>
 			<option value="2">Great</option>
 			<option value="3">Good</option>
@@ -21,7 +21,7 @@
 			<option value="6">Broken</option>
 		</select>
 		<br>
-		Checked Out To (can be null) <select id="person" name="person">
+		Checked Out To (can be null) <select required="true" id="person" name="person">
 			<option value="-1">Checked In</option>
 			{% for person in people %}
 				<option value="{{ person['person_id'] }}">
@@ -46,10 +46,10 @@
 			<form method="POST">
 				<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['id'] }}">
 				<td>
-					<input type="text" id="name" name="name" value="{{ tool['name'] }}">
+					<input type="text" required="true" id="name" name="name" value="{{ tool['name'] }}">
 				</td>
 				<td>
-					<select id="person_id" name="person_id">
+					<select required="true" id="person_id" name="person_id">
 						<option value="">Checked In</option>
 						{% for person in people %}
 							<option value="{{ person['person_id'] }}" {% if person['person_id'] == tool['person_id'] %} selected {% endif %}>
@@ -59,7 +59,7 @@
 					</select>
 				</td>
 				<td>
-					<select id="condition" name="condition">
+					<select required="true" id="condition" name="condition">
 						{% for (val, text) in [
 							(1, "New"),
 							(2, "Great"),
