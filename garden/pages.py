@@ -91,7 +91,9 @@ def tools():
 	db = get_db()
 
 	if request.method == "GET":
-		return render_template("tools.html")
+		tools = db.execute("SELECT * FROM tools LEFT JOIN people ON tools.person_id = people.person_id").fetchall()
+		people = db.execute("SELECT * FROM people").fetchall()
+		return render_template("tools.html", tools=tools, people=people)
 	
 	action = request.form.get("action")
 
