@@ -71,7 +71,8 @@ def plots():
 	db = get_db()
 
 	if request.method == "GET":
-		return render_template("plots.html")
+		plots = db.execute("SELECT * FROM plots")
+		return render_template("plots.html", plots=plots)
 	
 	action = request.form.get("action")
 

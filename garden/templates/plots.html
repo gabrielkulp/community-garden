@@ -25,71 +25,40 @@
 			<th>Manage Plants</th>
 			<th>Delete</th>
 		</tr>
-		<tr>
-			<td>Plot 1</td>
-			<td>
-				<form method="POST">
-					<input type="text" id="name" name="name" value="Near shed">
-					<input type="hidden" id="action" name="action" value="changelocation">
-					<input type="hidden" id="plot_id" name="plot_id" value="1">
-					<input type="submit" value="Change Name">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="number" id="length" name="length" value="9">
-					x
-					<input type="number" id="width" name="width" value="5">
-					<input type="hidden" id="action" name="action" value="changesize">
-					<input type="hidden" id="plot_id" name="plot_id" value="1">
-					<input type="submit" value="Change Size">
-				</form>
-			</td>
-			<td>
-				<form action="plot.html">
-					<input type="submit" value="Manage">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="plot_id" name="plot_id" value="1">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<td>Plot 2</td>
-			<td>
-				<form method="POST">
-					<input type="text" id="name" name="name" value="North of gate">
-					<input type="hidden" id="action" name="action" value="changelocation">
-					<input type="hidden" id="plot_id" name="plot_id" value="2">
-					<input type="submit" value="Change Name">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="number" id="length" name="length" value="3">
-					x
-					<input type="number" id="width" name="width" value="3">
-					<input type="hidden" id="action" name="action" value="changesize">
-					<input type="hidden" id="plot_id" name="plot_id" value="2">
-					<input type="submit" value="Change Size">
-				</form>
-			</td>
-			<td>
-				<form action="plot.html">
-					<input type="submit" value="Manage">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="plot_id" name="plot_id" value="2">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
+		{% for plot in plots %}
+			<tr>
+				<td><a href="{{ url_for('pages.plot', id=plot['plot_id']) }}">Plot {{ plot['plot_id'] }}</a></td>
+				<td>
+					<form method="POST">
+						<input type="text" id="name" name="name" value="{{ plot['location'] }}">
+						<input type="hidden" id="action" name="action" value="changelocation">
+						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="submit" value="Change Name">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="number" id="length" name="length" value="{{ plot['length'] }}">
+						x
+						<input type="number" id="width" name="width" value="{{ plot['width'] }}">
+						<input type="hidden" id="action" name="action" value="changesize">
+						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="submit" value="Change Size">
+					</form>
+				</td>
+				<td>
+					<form action="plot.html">
+						<input type="submit" value="Manage">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
 	</table>
 {% endblock %}
