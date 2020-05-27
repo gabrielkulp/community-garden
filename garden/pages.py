@@ -126,7 +126,10 @@ def varieties():
 	db = get_db()
 
 	if request.method == "GET":
-		return render_template("varieties.html")
+		varieties = db.execute(
+			"SELECT * FROM varieties;"
+		).fetchall()
+		return render_template("varieties.html", varieties=varieties)
 	
 	action = request.form.get("action")
 

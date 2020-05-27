@@ -36,110 +36,28 @@
 			<th>Update</th>
 			<th>Delete</th>
 		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="variety_id" name="variety_id" value="3">
-				<td>
-					<input type="text" id="name" name="name" value="Argentina Cherry Tomato">
-				</td>
-				<td>
-					<input type="text" id="name" name="name" value="Late Summer">
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
+		{% for variety in varieties %}
+			<tr>
 				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="variety_id" name="variety_id" value="3">
-					<input type="submit" value="Delete">
+					<input type="hidden" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
+					<td>
+						<input type="text" id="name" name="name" value="{{ variety.name }}">
+					</td>
+					<td>
+						<input type="text" id="season" name="season" value="{{ variety.season }}">
+					</td>
+					<td>
+						<input type="submit" value="Update">
+					</td>
 				</form>
-			</td>
-		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="variety_id" name="variety_id" value="4">
 				<td>
-					<input type="text" id="name" name="name" value="Esterina Tomato">
+					<form method="POST">
+						<input type="hidden" id="action" name="action" value="delete">
+						<input type="hidden" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
+						<input type="submit" value="Delete">
+					</form>
 				</td>
-				<td>
-					<input type="text" id="name" name="name" value="Early Fall">
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="variety_id" name="variety_id" value="4">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="variety_id" name="variety_id" value="6">
-				<td>
-					<input type="text" id="name" name="name" value="Emerald Evergreen Tomato">
-				</td>
-				<td>
-					<input type="text" id="name" name="name" value="Late Spring">
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="variety_id" name="variety_id" value="6">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="variety_id" name="variety_id" value="7">
-				<td>
-					<input type="text" id="name" name="name" value="Virginia Sweets Tomato">
-				</td>
-				<td>
-					<input type="text" id="name" name="name" value="Late Summer">
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="variety_id" name="variety_id" value="7">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="variety_id" name="variety_id" value="8">
-				<td>
-					<input type="text" id="name" name="name" value="Rosella Tomato">
-				</td>
-				<td>
-					<input type="text" id="name" name="name" value="Late Fall">
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="variety_id" name="variety_id" value="8">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-		</tr>
+			</tr>
+		{% endfor %}
 	</table>
 {% endblock %}
