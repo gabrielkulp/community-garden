@@ -6,8 +6,9 @@
 			{% for (route, title) in [
 				('pages.index','Home'),
 				('pages.admin','Administration'),
-				('pages.tools','Tools'),
+				('pages.people','People'),
 				('pages.plots','Garden Plots and Plants'),
+				('pages.tools','Tools'),
 				('pages.varieties','Available Varieties')
 			] %}
 				{% if request.path != url_for(route) %}	

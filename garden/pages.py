@@ -23,9 +23,32 @@ def admin():
 	return render_template("admin.html")
 
 
-@bp.route("/admin/people")
+@bp.route("/admin/people", methods=["GET", "POST"])
 def people():
-	return render_template("people.html")
+	db = get_db()
+
+	if request.method == "GET":
+		return render_template("people.html")
+	
+	action     = request.form.get("action")
+	first_name = request.form.get("first_name")
+	last_name  = request.form.get("last_name")
+	email      = request.form.get("email")
+
+	if not (action and first_name and last_name and email):
+		abort(400) # client error: missing data
+	
+	if action not in ["add"]:
+		abort(400) # client error: invalid action
+
+	if action == "add":
+		db.execute(
+			"INSERT INTO people (first_name, last_name, email) VALUES (?, ?, ?)",
+			(first_name, last_name, email)
+		)
+
+	db.commit()
+	return redirect(url_for("pages.people"))
 
 
 @bp.route("/admin/plot")
