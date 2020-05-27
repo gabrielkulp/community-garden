@@ -49,9 +49,9 @@ INSERT INTO plants (variety_id, plot_id) VALUES ((
 
 -- Add Tools (M:1 with People)
 INSERT INTO tools (name, `condition`) VALUES ('Trowel', 3);
-INSERT INTO tools (name, checked_out, `condition`, person_id) VALUES ('Watering can', TRUE, 4, (
+INSERT INTO tools (name, `condition`, person_id) VALUES ('Watering can', 4, (
 	SELECT person_id FROM people WHERE first_name = 'Harold' and last_name = 'Miller'
 ));
-INSERT INTO tools (name, checked_out, `condition`, person_id) VALUES ('Shears', TRUE, 1, (
+INSERT INTO tools (name, `condition`, person_id) VALUES ('Shears', 1, (
 	SELECT person_id FROM people WHERE first_name = 'Nancy' and last_name = 'Mulligan'
 ));

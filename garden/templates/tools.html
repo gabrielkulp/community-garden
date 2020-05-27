@@ -22,9 +22,12 @@
 		</select>
 		<br>
 		Checked Out To (can be null) <select id="person" name="person">
-			<option value="-1">Checked In</option>
-			<option value="1">Harold Miller</option>
-			<option value="2">Nancy Mulligan</option>
+			<option value="">Checked In</option>
+			{% for person in people %}
+				<option value="{{ person['person_id'] }}">
+					{{ person['first_name'] }} {{ person['last_name'] }}
+				</option>
+			{% endfor %}
 		</select>
 		<br>
 		<input type="submit" value="Add">
@@ -37,29 +40,38 @@
 			<th>Last-known condition</th>
 			<th>Update</th>
 			<th>Delete</th>
-			<th>History</th>
 		</tr>
+		{% for tool in tools %}
 		<tr>
 			<form method="POST">
-				<input type="hidden" id="tool_id" name="tool_id" value="5">
+				<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['id'] }}">
 				<td>
-					<input type="text" id="name" name="name" value="Trowel">
+					<input type="text" id="name" name="name" value="{{ tool['name'] }}">
 				</td>
 				<td>
 					<select id="person_id" name="person_id">
-						<option value="checkedIn">Checked In</option>
-						<option value="2" selected>Harold Miller</option>
-						<option value="5">Nancy Mulligan</option>
+						<option value="">Checked In</option>
+						{% for person in people %}
+							<option value="{{ person['person_id'] }}" {% if person['person_id'] == tool['person_id'] %} selected {% endif %}>
+								{{ person['first_name'] }} {{ person['last_name'] }}
+							</option>
+						{% endfor %}
 					</select>
 				</td>
 				<td>
 					<select id="condition" name="condition">
-						<option value="1">New</option>
-						<option value="2">Great</option>
-						<option value="3" selected>Good</option>
-						<option value="4">Fair</option>
-						<option value="5">Poor</option>
-						<option value="6">Broken</option>
+						{% for (val, text) in [
+							(1, "New"),
+							(2, "Great"),
+							(3, "Good"),
+							(4, "Fair"),
+							(5, "Poor"),
+							(6, "Broken")
+						] %}
+							<option value="{{ val }}" {% if val == tool['condition'] %} selected {% endif %}>
+								{{ text }}
+							</option>
+						{% endfor %}
 					</select>
 				</td>
 				<td>
@@ -69,101 +81,11 @@
 			<td>
 				<form method="POST">
 					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="tool_id" name="tool_id" value="5">
+					<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['id'] }}">
 					<input type="submit" value="Delete">
 				</form>
 			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="history">
-					<input type="hidden" id="tool_id" name="tool_id" value="5">
-					<input type="submit" value="History">
-				</form>
-			</td>
 		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="tool_id" name="tool_id" value="6">
-				<td>
-					<input type="text" id="name" name="name" value="Watering can">
-				</td>
-				<td>
-					<select id="person_id" name="person_id">
-						<option value="checkedIn">Checked In</option>
-						<option value="2" selected>Harold Miller</option>
-						<option value="5">Nancy Mulligan</option>
-					</select>
-				</td>
-				<td>
-					<select id="condition" name="condition">
-						<option value="1">New</option>
-						<option value="2">Great</option>
-						<option value="3">Good</option>
-						<option value="4" selected>Fair</option>
-						<option value="5">Poor</option>
-						<option value="6">Broken</option>
-					</select>
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="tool_id" name="tool_id" value="6">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="history">
-					<input type="hidden" id="tool_id" name="tool_id" value="6">
-					<input type="submit" value="History">
-				</form>
-			</td>
-		</tr>
-		<tr>
-			<form method="POST">
-				<input type="hidden" id="tool_id" name="tool_id" value="7">
-				<td>
-					<input type="text" id="name" name="name" value="Shears">
-				</td>
-				<td>
-					<select id="person_id" name="person_id">
-						<option value="checkedIn">Checked In</option>
-						<option value="2">Harold Miller</option>
-						<option value="5" selected>Nancy Mulligan</option>
-					</select>
-				</td>
-				<td>
-					<select id="condition" name="condition">
-						<option value="1" selected>New</option>
-						<option value="2">Great</option>
-						<option value="3">Good</option>
-						<option value="4">Fair</option>
-						<option value="5">Poor</option>
-						<option value="6">Broken</option>
-					</select>
-				</td>
-				<td>
-					<input type="submit" value="Update">
-				</td>
-			</form>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="delete">
-					<input type="hidden" id="tool_id" name="tool_id" value="7">
-					<input type="submit" value="Delete">
-				</form>
-			</td>
-			<td>
-				<form method="POST">
-					<input type="hidden" id="action" name="action" value="history">
-					<input type="hidden" id="tool_id" name="tool_id" value="7">
-					<input type="submit" value="History">
-				</form>
-			</td>
-		</tr>
+		{% endfor %}
 	</table>
 {% endblock %}
