@@ -23,8 +23,11 @@
 		<br>
 		Checked Out To (can be null) <select id="person" name="person">
 			<option value="">Checked In</option>
-			<option value="1">Harold Miller</option>
-			<option value="2">Nancy Mulligan</option>
+			{% for person in people %}
+				<option value="{{ person['person_id'] }}">
+					{{ person['first_name'] }} {{ person['last_name'] }}
+				</option>
+			{% endfor %}
 		</select>
 		<br>
 		<input type="submit" value="Add">
