@@ -1,0 +1,169 @@
+{% extends 'admin-base.html' %}
+
+{% block title %}Tools{% endblock %}
+
+{% block header %}
+	<h1>Tools Management</h1>
+{% endblock %}
+
+{% block controls %}
+	<h2>Add New Tool</h2>
+	<form method="POST">
+		<input type="hidden" id="action" name="action" value="add">
+		Name <input type="text" id="name" name="name">
+		<br>
+		Condition <select id="condition" name="condition">
+			<option value="1">New</option>
+			<option value="2">Great</option>
+			<option value="3">Good</option>
+			<option value="4">Fair</option>
+			<option value="5">Poor</option>
+			<option value="6">Broken</option>
+		</select>
+		<br>
+		Checked Out To (can be null) <select id="checked_out_to" name="checked_out_to">
+			<option value="-1">Checked In</option>
+			<option value="1">Harold Miller</option>
+			<option value="2">Nancy Mulligan</option>
+		</select>
+		<br>
+		<input type="submit" value="Add">
+	</form>
+	<br>
+	<table>
+		<tr>
+			<th>Tool Name</th>
+			<th>Checked out to</th>
+			<th>Last-known condition</th>
+			<th>Update</th>
+			<th>Delete</th>
+			<th>History</th>
+		</tr>
+		<tr>
+			<form method="POST">
+				<input type="hidden" id="tool_id" name="tool_id" value="5">
+				<td>
+					<input type="text" id="name" name="name" value="Trowel">
+				</td>
+				<td>
+					<select id="person_id" name="person_id">
+						<option value="checkedIn">Checked In</option>
+						<option value="2" selected>Harold Miller</option>
+						<option value="5">Nancy Mulligan</option>
+					</select>
+				</td>
+				<td>
+					<select id="condition" name="condition">
+						<option value="1">New</option>
+						<option value="2">Great</option>
+						<option value="3" selected>Good</option>
+						<option value="4">Fair</option>
+						<option value="5">Poor</option>
+						<option value="6">Broken</option>
+					</select>
+				</td>
+				<td>
+					<input type="submit" value="Update">
+				</td>
+			</form>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="tool_id" name="tool_id" value="5">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="history">
+					<input type="hidden" id="tool_id" name="tool_id" value="5">
+					<input type="submit" value="History">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<form method="POST">
+				<input type="hidden" id="tool_id" name="tool_id" value="6">
+				<td>
+					<input type="text" id="name" name="name" value="Watering can">
+				</td>
+				<td>
+					<select id="person_id" name="person_id">
+						<option value="checkedIn">Checked In</option>
+						<option value="2" selected>Harold Miller</option>
+						<option value="5">Nancy Mulligan</option>
+					</select>
+				</td>
+				<td>
+					<select id="condition" name="condition">
+						<option value="1">New</option>
+						<option value="2">Great</option>
+						<option value="3">Good</option>
+						<option value="4" selected>Fair</option>
+						<option value="5">Poor</option>
+						<option value="6">Broken</option>
+					</select>
+				</td>
+				<td>
+					<input type="submit" value="Update">
+				</td>
+			</form>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="tool_id" name="tool_id" value="6">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="history">
+					<input type="hidden" id="tool_id" name="tool_id" value="6">
+					<input type="submit" value="History">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<form method="POST">
+				<input type="hidden" id="tool_id" name="tool_id" value="7">
+				<td>
+					<input type="text" id="name" name="name" value="Shears">
+				</td>
+				<td>
+					<select id="person_id" name="person_id">
+						<option value="checkedIn">Checked In</option>
+						<option value="2">Harold Miller</option>
+						<option value="5" selected>Nancy Mulligan</option>
+					</select>
+				</td>
+				<td>
+					<select id="condition" name="condition">
+						<option value="1" selected>New</option>
+						<option value="2">Great</option>
+						<option value="3">Good</option>
+						<option value="4">Fair</option>
+						<option value="5">Poor</option>
+						<option value="6">Broken</option>
+					</select>
+				</td>
+				<td>
+					<input type="submit" value="Update">
+				</td>
+			</form>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="tool_id" name="tool_id" value="7">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="history">
+					<input type="hidden" id="tool_id" name="tool_id" value="7">
+					<input type="submit" value="History">
+				</form>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

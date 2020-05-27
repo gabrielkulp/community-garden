@@ -1,0 +1,51 @@
+{% extends 'admin-base.html' %}
+
+{% block title %}Plot{% endblock %}
+
+{% block header %}
+	<h1>Single Plot Controls</h1>
+{% endblock %}
+
+{% block controls %}
+	<form method="POST">
+		<input type="hidden" id="action" name="action" value="add">
+		<input type="submit" value="Add new plant">
+	</form>
+	<br>
+	<table>
+		<tr>
+			<th>Plant Name</th>
+			<th>Delete</th>
+		</tr>
+		<tr>
+			<td>Ace Tomato</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="plant_id" name="plant_id" value="1">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>Maya Tomato</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="plant_id" name="plant_id" value="2">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>Miroma Tomato</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="delete">
+					<input type="hidden" id="plant_id" name="plant_id" value="3">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

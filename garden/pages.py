@@ -7,12 +7,47 @@ from garden.db import get_db
 
 bp = Blueprint("pages", __name__, static_folder="static")
 
+
 @bp.route("/")
 def index():
 	return render_template("index.html")
 
 
-# Database usage examles
+@bp.route("/user")
+def user():
+	return render_template("user.html")
+
+
+@bp.route("/admin")
+def admin():
+	return render_template("admin.html")
+
+
+@bp.route("/admin/people")
+def people():
+	return render_template("people.html")
+
+
+@bp.route("/admin/plot")
+def plot():
+	return render_template("plot.html")
+
+
+@bp.route("/admin/plots")
+def plots():
+	return render_template("plots.html")
+
+
+@bp.route("/admin/tools")
+def tools():
+	return render_template("tools.html")
+
+
+@bp.route("/admin/varieties")
+def varieties():
+	return render_template("varieties.html")
+
+# Database usage examples
 #
 #@bp.route("/bookshelf", methods=["GET", "POST"])
 #@login_required

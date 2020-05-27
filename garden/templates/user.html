@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block header %}
+	<h1>User Controls</h1>
+{% endblock %}
+
+{% block content %}
+	<nav>
+		<a href="{{ url_for('pages.index') }}">Home</a>
+	</nav>
+	<h2>Personal Information</h2>
+	<form method="POST">
+		<input type="hidden" id="action" name="action" value="update">
+		<input type="hidden" id="person_id" name="person_id" value="2">
+		First name <input type="text" id="first_name" name="first_name" value="Harold">
+		<br>
+		Last name <input type="text" id="last_name" name="last_name" value="Miller">
+		<br>
+		Email <input type="text" id="email" name="email" value="flowerPal@example.com">
+		<br>
+		<input type="submit" value="Update">
+	</form>
+	<h2>Manage Tools</h2>
+	<form method="POST">
+		Check out tool
+		<input type="hidden" id="action" name="action" value="checkout">
+		<select id="tool" name="tool">
+			<option value="None" selected>None available</option>
+		</select>
+		<input type="submit" value="Add">
+	</form>
+	<table>
+		<tr>
+			<th>Tool Name</th>
+			<th>Return</th>
+		</tr>
+		<tr>
+			<td>Trowel</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="return">
+					<input type="hidden" id="tool_id" name="tool_id" value="5">
+					<select id="condition" name="condition">
+						<option value="New">New</option>
+						<option value="Great" selected>Good</option>
+						<option value="Okay">Okay</option>
+						<option value="Bad">Bad</option>
+					</select>
+					<input type="submit" value="Return">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>Watering can</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="return">
+					<input type="hidden" id="tool_id" name="tool_id" value="6">
+					<select id="condition" name="condition">
+						<option value="New">New</option>
+						<option value="Great">Good</option>
+						<option value="Okay" selected>Okay</option>
+						<option value="Bad">Bad</option>
+					</select>
+					<input type="submit" value="Return">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>Shears</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="return">
+					<input type="hidden" id="tool_id" name="tool_id" value="7">
+					<select id="condition" name="condition">
+						<option value="New" selected>New</option>
+						<option value="Great">Good</option>
+						<option value="Okay">Okay</option>
+						<option value="Bad">Bad</option>
+					</select>
+					<input type="submit" value="Return">
+				</form>
+			</td>
+		</tr>
+	</table>
+	<h2>Manage Plots and Plants</h2>
+	<form method="POST">
+		Assign yourself to new plot
+		<input type="hidden" id="action" name="action" value="assign">
+		<select id="plot" name="plot">
+			<option value="None" selected>-- select --</option>
+			<option value="4" selected>3x5 along fence</option>
+		</select>
+		<input type="submit" value="Assign">
+	</form>
+	<table>
+		<tr>
+			<th>Location</th>
+			<th>Size</th>
+			<th>Plants</th>
+			<th>Leave</th>
+		</tr>
+		<tr>
+			<td>Near Shed</td>
+			<td>9x5</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="manage">
+					<input type="hidden" id="plot_id" name="plot_id" value="1">
+					<input type="submit" value="Manage">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="leave">
+					<input type="hidden" id="plot_id" name="plot_id" value="1">
+					<input type="submit" value="Leave">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>North of Gate</td>
+			<td>3x3</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="manage">
+					<input type="hidden" id="plot_id" name="plot_id" value="2">
+					<input type="submit" value="Manage">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="action" name="action" value="leave">
+					<input type="hidden" id="plot_id" name="plot_id" value="2">
+					<input type="submit" value="Leave">
+				</form>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

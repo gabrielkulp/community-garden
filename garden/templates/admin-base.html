@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<nav>
+		<ul>
+			{% for (route, title) in [
+				('pages.index','Home'),
+				('pages.admin','Administration'),
+				('pages.tools','Tools'),
+				('pages.plots','Garden Plots and Plants'),
+				('pages.varieties','Available Varieties')
+			] %}
+				{% if request.path != url_for(route) %}	
+					<li><a href="{{ url_for(route) }}">{{ title }}</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</nav>
+	{% block controls %}
+	{% endblock %}
+{% endblock %}
