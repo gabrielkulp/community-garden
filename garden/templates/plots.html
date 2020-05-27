@@ -8,9 +8,9 @@
 
 {% block controls %}
 	<h2>Add New Plot</h2>
-	<form method="POST">
+	<form action="{{ url_for('pages.plots') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
-		Location <input type="text" id="first_name" name="first_name">
+		Location <input type="text" id="location" name="location">
 		<br>
 		Size <input type="number" id="length" name="length" placeholder="L"> x <input type="number" id="width" name="width" placeholder="W">
 		<br>

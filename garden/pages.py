@@ -40,7 +40,7 @@ def people():
 		last_name  = request.form.get("last_name")
 		email      = request.form.get("email")
 	
-		if not (first_name and last_name and email)
+		if not (first_name and last_name and email):
 			abort(400) # client error: missing data
 	
 		db.execute(
@@ -57,9 +57,33 @@ def plot():
 	return render_template("plot.html")
 
 
-@bp.route("/admin/plots")
+@bp.route("/admin/plots", methods=["GET", "POST"])
 def plots():
-	return render_template("plots.html")
+	db = get_db()
+
+	if request.method == "GET":
+		return render_template("plots.html")
+	
+	action = request.form.get("action")
+
+	if action not in ["add"]:
+		abort(400) # client error: invalid action
+
+	if action == "add":
+		location = request.form.get("location")
+		length   = request.form.get("length")
+		width    = request.form.get("width")
+	
+		if not (location and length and width):
+			abort(400) # client error: missing data
+	
+		db.execute(
+			"INSERT INTO plots (length, width, location) VALUES (?, ?, ?)",
+			(length, width, location)
+		)
+
+	db.commit()
+	return redirect(url_for("pages.plots"))
 
 
 @bp.route("/admin/tools")
