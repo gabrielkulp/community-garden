@@ -13,12 +13,12 @@ INSERT INTO people_plots (person_id, plot_id) VALUES ((
 	SELECT person_id FROM people WHERE first_name = 'Harold' AND last_name = 'Miller'
 ), (
 	SELECT plot_id FROM plots WHERE location = 'Near shed'
-);
+));
 INSERT INTO people_plots (person_id, plot_id) VALUES ((
 	SELECT person_id FROM people WHERE first_name = 'Nancy' AND last_name = 'Mulligan'
 ), (
 	SELECT plot_id FROM plots WHERE location = 'North of gate'
-);
+));
 
 -- Add Varieties
 INSERT INTO varieties (name, season) VALUES ('Argentina Cherry Tomato', 'Late Summer');
