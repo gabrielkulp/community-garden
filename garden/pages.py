@@ -52,9 +52,15 @@ def people():
 	return redirect(url_for("pages.people"))
 
 
-@bp.route("/admin/plot")
-def plot():
-	return render_template("plot.html")
+@bp.route("/admin/plot/<int:id>")
+def plot(id):
+	db = get_db()
+	plants = db.execute("""SELECT * FROM plants
+						   INNER JOIN plots ON plants.plot_id = plots.plot_id
+						   INNER JOIN varieties ON plants.variety_id = varieties.variety_id
+						   WHERE plots.plot_id = ?""", (str(id))).fetchall()
+
+	return render_template("plot.html", plants=plants)
 
 
 @bp.route("/admin/plots", methods=["GET", "POST"])
