@@ -41,18 +41,8 @@ CREATE TABLE plants (
 CREATE TABLE tools (
 	tool_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(100) NOT NULL,
-	checked_out BOOLEAN NOT NULL DEFAULT (FALSE),
 	`condition` INTEGER NOT NULL DEFAULT (1), -- condition is reserved word
-	/* condition enum:
-		1 -> New
-		2 -> Great
-		3 -> Good
-		4 -> Fair
-		5 -> Poor
-		6 -> Broken
-       (not using MariaDB enum b/c final impl will be in SQLite)
-	*/
-	person_id INTEGER, -- not null b/c can be not checked out
+	person_id INTEGER, -- nullable b/c can be not checked out
 	FOREIGN KEY (person_id) REFERENCES people (person_id)
 );
 

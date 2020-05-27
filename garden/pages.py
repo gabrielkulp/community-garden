@@ -86,14 +86,65 @@ def plots():
 	return redirect(url_for("pages.plots"))
 
 
-@bp.route("/admin/tools")
+@bp.route("/admin/tools", methods=["GET", "POST"])
 def tools():
-	return render_template("tools.html")
+	db = get_db()
+
+	if request.method == "GET":
+		return render_template("tools.html")
+	
+	action = request.form.get("action")
+
+	if action not in ["add"]:
+		abort(400) # client error: invalid action
+
+	if action == "add":
+		name      = request.form.get("name")
+		condition = request.form.get("condition")
+		person    = request.form.get("person")
+	
+		if not (name and condition and person):
+			abort(400) # client error: missing data
+		
+		if int(person) < 0:
+			person = None
+	
+		# TODO: extra query to validate person id
+		db.execute(
+			"INSERT INTO tools (name, `condition`, person_id) VALUES (?, ?, ?)",
+			(name, condition, person)
+		)
+
+	db.commit()
+	return redirect(url_for("pages.tools"))
 
 
-@bp.route("/admin/varieties")
+@bp.route("/admin/varieties", methods=["GET", "POST"])
 def varieties():
-	return render_template("varieties.html")
+	db = get_db()
+
+	if request.method == "GET":
+		return render_template("varieties.html")
+	
+	action = request.form.get("action")
+
+	if action not in ["add"]:
+		abort(400) # client error: invalid action
+
+	if action == "add":
+		name   = request.form.get("name")
+		season = request.form.get("season")
+	
+		if not (name and season):
+			abort(400) # client error: missing data
+		
+		db.execute(
+			"INSERT INTO varieties (name, season) VALUES (?, ?)",
+			(name, season)
+		)
+
+	db.commit()
+	return redirect(url_for("pages.varieties"))
 
 # Database usage examples
 #

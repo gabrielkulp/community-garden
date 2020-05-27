@@ -10,6 +10,7 @@
 	<h2>Find Variety</h2>
 	<p>Find all the plots in which a particular variety is growing.</p>
 	<form method="POST">
+		<input type="hidden" id="action" name="action" value="search">
 		<select id="variety" name="variety">
 			<option value="3">Argentina Cherry Tomato</option>
 			<option value="4">Esterina Tomato</option>
@@ -20,9 +21,9 @@
 		<input type="submit" value="search">
 	</form>
 	<h2>Add New Variety</h2>
-	<form method="POST">
+	<form action="{{ url_for('pages.varieties') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
-		Variety <input type="text" id="variety" name="variety">
+		Variety <input type="text" id="name" name="name">
 		<br>
 		Season <input type="text" id="season" name="season">
 		<br>

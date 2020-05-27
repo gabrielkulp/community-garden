@@ -8,7 +8,7 @@
 
 {% block controls %}
 	<h2>Add New Tool</h2>
-	<form method="POST">
+	<form action="{{ url_for('pages.tools') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
 		Name <input type="text" id="name" name="name">
 		<br>
@@ -21,7 +21,7 @@
 			<option value="6">Broken</option>
 		</select>
 		<br>
-		Checked Out To (can be null) <select id="checked_out_to" name="checked_out_to">
+		Checked Out To (can be null) <select id="person" name="person">
 			<option value="-1">Checked In</option>
 			<option value="1">Harold Miller</option>
 			<option value="2">Nancy Mulligan</option>
