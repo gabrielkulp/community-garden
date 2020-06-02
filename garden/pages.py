@@ -35,9 +35,6 @@ def people():
 	
 	action = request.form.get("action")
 
-	if action not in ["add", "delete"]:
-		abort(400) # client error: invalid action
-
 	if action == "add":
 		first_name = request.form.get("first_name")
 		last_name  = request.form.get("last_name")
@@ -50,6 +47,31 @@ def people():
 			"INSERT INTO people (first_name, last_name, email) VALUES (?, ?, ?)",
 			(first_name, last_name, email)
 		)
+
+	elif action == "first_name":
+		first_name = request.form.get("name")
+		person_id = request.form.get("person_id")
+
+		if not first_name:
+			abort(400)
+
+		db.execute("UPDATE people SET first_name = ? WHERE person_id = ?", (first_name, person_id))
+	elif action == "last_name":
+		last_name = request.form.get("name")
+		person_id = request.form.get("person_id")
+
+		if not last_name:
+			abort(400)
+
+		db.execute("UPDATE people SET last_name = ? WHERE person_id = ?", (last_name, person_id))
+	elif action == "email":
+		email = request.form.get("email")
+		person_id = request.form.get("person_id")
+
+		if not email:
+			abort(400)
+
+		db.execute("UPDATE people SET email = ? WHERE person_id = ?", (email, person_id))
 	elif action == "delete":
 		person_id = request.form.get("person_id")
 
@@ -60,6 +82,8 @@ def people():
 			"DELETE FROM people WHERE person_id = ?",
 			(person_id,)
 		)
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.people"))
@@ -113,7 +137,8 @@ def plots():
 		query = request.args.get("query", default="")
 		plots = db.execute("""SELECT * FROM plots
 							  INNER JOIN people_plots ON plots.plot_id = people_plots.plot_id
-							  INNER JOIN people ON people_plots.person_id = people.person_id""").fetchall()
+							  INNER JOIN people ON people_plots.person_id = people.person_id
+							  ORDER BY plot_id ASC""").fetchall()
 
 		people = db.execute("SELECT * FROM people").fetchall()
 
@@ -126,12 +151,18 @@ def plots():
 				people_for_plot[p['plot_id']] = []
 			people_for_plot[p['plot_id']].append(p['person_id'])
 
-		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query)
-	
-	action = request.form.get("action")
+		# dedup
+		dedup = []
+		for p in plots:
+			if [x for x in dedup if x['plot_id'] == p['plot_id']] == []:
+				dedup.append(p)
+		plots = dedup
 
-	if action not in ["add", "delete"]:
-		abort(400) # client error: invalid action
+		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query)
+
+	# handle POST request
+
+	action = request.form.get("action")
 
 	if action == "add":
 		location = request.form.get("location")
@@ -145,6 +176,39 @@ def plots():
 			"INSERT INTO plots (length, width, location) VALUES (?, ?, ?)",
 			(length, width, location)
 		)
+	elif action == "changelocation":
+		location = request.form.get("location")
+		plot_id = request.form.get("plot_id")
+		if not location:
+			abort(400)
+
+		db.execute("UPDATE plots SET location = ? WHERE plot_id = ?", (location, plot_id))
+	elif action == "changesize":
+		length   = request.form.get("length")
+		width    = request.form.get("width")
+		plot_id = request.form.get("plot_id")
+		
+		if not (length and width and plot_id):
+			abort(400)
+
+		try:
+			length = float(length)
+			width = float(width)
+			assert(length > 0)
+			assert(width > 0)
+		except Exception as e:
+			print(e)
+			abort(400)
+		
+		db.execute("UPDATE plots SET width = ?, length = ? WHERE plot_id = ?", (width, length, plot_id))
+	elif action == "changeowners":
+		owners = request.form.getlist("owners")
+		plot_id = request.form.get("plot_id")
+
+		db.execute("DELETE FROM people_plots WHERE plot_id = ?", (plot_id))
+
+		for o in owners:
+			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
 	elif action == "delete":
 		plot_id = request.form.get("plot_id")
 
@@ -155,6 +219,8 @@ def plots():
 			"DELETE FROM plots WHERE plot_id = ?",
 			(plot_id,)
 		)
+	else:
+		abort(400) # client error: invalid action
 
 	db.commit()
 	return redirect(url_for("pages.plots"))
@@ -170,9 +236,6 @@ def tools():
 		return render_template("tools.html", tools=tools, people=people)
 	
 	action = request.form.get("action")
-
-	if action not in ["add", "delete"]:
-		abort(400) # client error: invalid action
 
 	if action == "add":
 		name      = request.form.get("name")
@@ -190,6 +253,35 @@ def tools():
 			"INSERT INTO tools (name, `condition`, person_id) VALUES (?, ?, ?)",
 			(name, condition, person)
 		)
+
+	elif action == "name":
+		name = request.form.get("name")
+		tool_id = request.form.get("tool_id")
+
+		if not (name and tool_id):
+			abort(400)
+
+		db.execute("UPDATE tools SET name = ? WHERE tool_id = ?", (name, tool_id))
+	elif action == "check_out":
+		person = request.form.get("person_id")
+		tool_id = request.form.get("tool_id")
+
+		if not (person and tool_id):
+			abort(400)
+
+		# null the fk
+		if person == "checked_in":
+			person = ""
+
+		db.execute("UPDATE tools SET person_id = ? WHERE tool_id = ?", (person, tool_id))
+	elif action == "condition":
+		condition = request.form.get("condition")
+		tool_id = request.form.get("tool_id")
+
+		if not (condition and tool_id):
+			abort(400)
+
+		db.execute("UPDATE tools SET condition = ? WHERE tool_id = ?", (condition, tool_id))
 	elif action == "delete":
 		tool_id = request.form.get("tool_id")
 
@@ -197,6 +289,8 @@ def tools():
 			abort(400) # client error: missing data
 		
 		db.execute("DELETE FROM tools WHERE tool_id = ?", (tool_id,))
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.tools"))
@@ -214,9 +308,6 @@ def varieties():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
-		abort(400) # client error: invalid action
-
 	if action == "add":
 		name   = request.form.get("name")
 		season = request.form.get("season")
@@ -228,6 +319,24 @@ def varieties():
 			"INSERT INTO varieties (name, season) VALUES (?, ?)",
 			(name, season)
 		)
+	elif action == "name":
+		name = request.form.get("name")
+		variety_id = request.form.get("variety_id")
+
+		if not (name and variety_id):
+			abort(400)
+
+		db.execute("UPDATE varieties SET name = ? WHERE variety_id = ?", (name, variety_id))
+	elif action == "season":
+		season = request.form.get("season")
+		variety_id = request.form.get("variety_id")
+
+		if not (season and variety_id):
+			abort(400)
+
+		db.execute("UPDATE varieties SET season = ? WHERE variety_id = ?", (season, variety_id))
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.varieties"))

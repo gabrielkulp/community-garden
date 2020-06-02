@@ -7,19 +7,6 @@
 {% endblock %}
 
 {% block controls %}
-	<h2>Find Variety</h2>
-	<p>Find all the plots in which a particular variety is growing.</p>
-	<form method="POST">
-		<input type="hidden" id="action" name="action" value="search">
-		<select required="true" required="true" id="variety" name="variety">
-			<option value="3">Argentina Cherry Tomato</option>
-			<option value="4">Esterina Tomato</option>
-			<option value="6">Emerald Evergreen Tomato</option>
-			<option value="7">Virginia Sweets Tomato</option>
-			<option value="8">Rosella Tomato</option>
-		</select>
-		<input type="submit" value="search">
-	</form>
 	<h2>Add New Variety</h2>
 	<form action="{{ url_for('pages.varieties') }}" method="POST">
 		<input type="hidden" id="action" name="action" value="add">
@@ -33,23 +20,26 @@
 		<tr>
 			<th>Variety</th>
 			<th>Season</th>
-			<th>Update</th>
 			<th>Delete</th>
 		</tr>
 		{% for variety in varieties %}
 			<tr>
-				<form method="POST">
-					<input type="hidden" id="variety_id" name="variety_id" value="{{ variety.variety_id }}">
-					<td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="variety_id" name="variety_id" value="{{ variety['variety_id'] }}">
+						<input type="hidden" id="action" name="action" value="name">
 						<input type="text" required="true" id="name" name="name" value="{{ variety.name }}">
-					</td>
-					<td>
+						<input type="submit" value="Update Name">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="variety_id" name="variety_id" value="{{ variety['variety_id'] }}">
+						<input type="hidden" id="action" name="action" value="season">
 						<input type="text" required="true" id="season" name="season" value="{{ variety.season }}">
-					</td>
-					<td>
-						<input type="submit" value="Update">
-					</td>
-				</form>
+						<input type="submit" value="Update Season">
+					</form>
+				</td>
 				<td>
 					<form method="POST">
 						<input type="hidden" required="true" id="action" name="action" value="delete">
