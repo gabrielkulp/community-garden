@@ -35,7 +35,7 @@ def people():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
+	if action not in ["add", "delete"]:
 		abort(400) # client error: invalid action
 
 	if action == "add":
@@ -49,6 +49,16 @@ def people():
 		db.execute(
 			"INSERT INTO people (first_name, last_name, email) VALUES (?, ?, ?)",
 			(first_name, last_name, email)
+		)
+	elif action == "delete":
+		person_id = request.form.get("person_id")
+
+		if not person_id:
+			abort(400) # client error: missing data
+
+		db.execute(
+			"DELETE FROM people WHERE person_id = ?",
+			(person_id,)
 		)
 
 	db.commit()
@@ -91,7 +101,7 @@ def plots():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
+	if action not in ["add", "delete"]:
 		abort(400) # client error: invalid action
 
 	if action == "add":
@@ -105,6 +115,16 @@ def plots():
 		db.execute(
 			"INSERT INTO plots (length, width, location) VALUES (?, ?, ?)",
 			(length, width, location)
+		)
+	elif action == "delete":
+		plot_id = request.form.get("plot_id")
+
+		if not plot_id:
+			abort(400) # client error: missing data
+
+		db.execute(
+			"DELETE FROM plots WHERE plot_id = ?",
+			(plot_id,)
 		)
 
 	db.commit()
