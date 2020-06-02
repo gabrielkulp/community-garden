@@ -32,8 +32,8 @@
 	<table>
 		<tr>
 			<th>Plot Number</th>
-			<th>Owner(s)</th>
 			<th>Location</th>
+			<th>Owner(s)</th>
 			<th>Size (LxW)</th>
 			<th>Delete</th>
 		</tr>
@@ -41,17 +41,17 @@
 			<tr>
 				<td><a href="{{ url_for('pages.plot', id=plot['plot_id']) }}">Plot {{ plot['plot_id'] }}</a></td>
 				<td>
-					<form method="POST">
+					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
 						<input type="hidden" id="action" name="action" value="changelocation">
-						<input type="text" required="true" id="name" name="name" value="{{ plot['location'] }}">
-						<input type="submit" value="Change Name">
+						<input type="text" required="true" id="location" name="location" value="{{ plot['location'] }}">
+						<input type="submit" value="Change Location">
 					</form>
 				</td>
 				<td>
-					<form method="POST">
+					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
-						<input type="hidden" id="action" name="action" value="changelocation">
+						<input type="hidden" id="action" name="action" value="changeowners">
 						<select name="owners" multiple>
 						{% for person in people %}
 							<option value="{{ person['person_id'] }}" {% if person['person_id'] in plot_owners[plot['plot_id']] %} selected {% endif %}>
@@ -63,7 +63,7 @@
 					</form>
 				</td>
 				<td>
-					<form method="POST">
+					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
 						<input type="hidden" id="action" name="action" value="changesize">
 						<input type="number" required="true" id="length" name="length" value="{{ plot['length'] }}">
@@ -73,7 +73,7 @@
 					</form>
 				</td>
 				<td>
-					<form method="POST">
+					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
 						<input type="hidden" id="action" name="action" value="delete">
 						<input type="submit" value="Delete">

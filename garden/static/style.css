@@ -78,7 +78,7 @@ input[type=text], input[type=email], input[type=number] {
 }
 
 input[type=number] {
-	width: 50px;
+	width: 80px;
 }
 
 input[type=button], input[type=submit], input[type=reset] {

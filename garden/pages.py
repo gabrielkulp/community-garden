@@ -74,7 +74,8 @@ def plots():
 		query = request.args.get("query", default="")
 		plots = db.execute("""SELECT * FROM plots
 							  INNER JOIN people_plots ON plots.plot_id = people_plots.plot_id
-							  INNER JOIN people ON people_plots.person_id = people.person_id""").fetchall()
+							  INNER JOIN people ON people_plots.person_id = people.person_id
+							  ORDER BY plot_id ASC""").fetchall()
 
 		people = db.execute("SELECT * FROM people").fetchall()
 
@@ -87,12 +88,18 @@ def plots():
 				people_for_plot[p['plot_id']] = []
 			people_for_plot[p['plot_id']].append(p['person_id'])
 
-		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query)
-	
-	action = request.form.get("action")
+		# dedup
+		dedup = []
+		for p in plots:
+			if [x for x in dedup if x['plot_id'] == p['plot_id']] == []:
+				dedup.append(p)
+		plots = dedup
 
-	if action not in ["add"]:
-		abort(400) # client error: invalid action
+		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query)
+
+	# handle POST request
+
+	action = request.form.get("action")
 
 	if action == "add":
 		location = request.form.get("location")
@@ -106,6 +113,42 @@ def plots():
 			"INSERT INTO plots (length, width, location) VALUES (?, ?, ?)",
 			(length, width, location)
 		)
+	elif action == "changelocation":
+		location = request.form.get("location")
+		plot_id = request.form.get("plot_id")
+		if not location:
+			abort(400)
+
+		db.execute("UPDATE plots SET location = ? WHERE plot_id = ?", (location, plot_id))
+	elif action == "changesize":
+		length   = request.form.get("length")
+		width    = request.form.get("width")
+		plot_id = request.form.get("plot_id")
+		
+		if not (length and width and plot_id):
+			abort(400)
+
+		try:
+			length = float(length)
+			width = float(width)
+			assert(length > 0)
+			assert(width > 0)
+		except Exception as e:
+			print(e)
+			abort(400)
+		
+		db.execute("UPDATE plots SET width = ?, length = ? WHERE plot_id = ?", (width, length, plot_id))
+	elif action == "changeowners":
+		owners = request.form.getlist("owners")
+		plot_id = request.form.get("plot_id")
+
+		db.execute("DELETE FROM people_plots WHERE plot_id = ?", (plot_id))
+
+		for o in owners:
+			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
+
+	else:
+		abort(400) # client error: invalid action
 
 	db.commit()
 	return redirect(url_for("pages.plots"))
