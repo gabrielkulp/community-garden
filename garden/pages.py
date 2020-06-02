@@ -65,15 +65,44 @@ def people():
 	return redirect(url_for("pages.people"))
 
 
-@bp.route("/admin/plot/<int:id>")
+@bp.route("/admin/plot/<int:id>", methods=["GET", "POST"])
 def plot(id):
 	db = get_db()
-	plants = db.execute("""SELECT * FROM plants
-						   INNER JOIN plots ON plants.plot_id = plots.plot_id
-						   INNER JOIN varieties ON plants.variety_id = varieties.variety_id
-						   WHERE plots.plot_id = ?""", (str(id))).fetchall()
 
-	return render_template("plot.html", plants=plants)
+	if request.method == "GET":
+		plants = db.execute("""SELECT * FROM plants
+							   INNER JOIN plots ON plants.plot_id = plots.plot_id
+							   INNER JOIN varieties ON plants.variety_id = varieties.variety_id
+							   WHERE plots.plot_id = ?""",
+			(str(id))
+		).fetchall()
+		varieties = db.execute("SELECT * FROM varieties").fetchall()
+		return render_template("plot.html", plants=plants, varieties=varieties)
+
+	action = request.form.get("action")
+
+	if action not in ["add", "delete"]:
+		abort(400) # client error: invalid action
+	
+	if action == "add":
+		variety_id = request.form.get("variety_id")
+
+		if not variety_id:
+			abort(400) # client error: missing data
+		
+		db.execute("INSERT INTO plants (variety_id, plot_id) VALUES (?, ?)",
+			(variety_id, id)
+		)
+	elif action == "delete":
+		plant_id = request.form.get("plant_id")
+
+		if not plant_id:
+			abort(400) # client error: missing data
+
+		db.execute("DELETE FROM plants WHERE plant_id = ?", (plant_id,))
+	
+	db.commit()
+	return redirect(url_for("pages.plot", id=id))
 
 
 @bp.route("/admin/plots", methods=["GET", "POST"])
