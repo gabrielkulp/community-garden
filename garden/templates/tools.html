@@ -38,27 +38,37 @@
 			<th>Tool Name</th>
 			<th>Checked out to</th>
 			<th>Last-known condition</th>
-			<th>Update</th>
 			<th>Delete</th>
 		</tr>
 		{% for tool in tools %}
 		<tr>
-			<form method="POST">
-				<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['id'] }}">
-				<td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['tool_id'] }}">
+					<input type="hidden" id="action" name="action" value="name">
 					<input type="text" required="true" id="name" name="name" value="{{ tool['name'] }}">
-				</td>
-				<td>
+					<input type="submit" value="Update">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['tool_id'] }}">
+					<input type="hidden" id="action" name="action" value="check_out">
 					<select required="true" id="person_id" name="person_id">
-						<option value="">Checked In</option>
+						<option value="checked_in">Checked In</option>
 						{% for person in people %}
 							<option value="{{ person['person_id'] }}" {% if person['person_id'] == tool['person_id'] %} selected {% endif %}>
 								{{ person['first_name'] }} {{ person['last_name'] }}
 							</option>
 						{% endfor %}
 					</select>
-				</td>
-				<td>
+					<input type="submit" value="Update">
+				</form>
+			</td>
+			<td>
+				<form method="POST">
+					<input type="hidden" id="tool_id" name="tool_id" value="{{ tool['tool_id'] }}">
+					<input type="hidden" id="action" name="action" value="condition">
 					<select required="true" id="condition" name="condition">
 						{% for (val, text) in [
 							(1, "New"),
@@ -73,11 +83,9 @@
 							</option>
 						{% endfor %}
 					</select>
-				</td>
-				<td>
 					<input type="submit" value="Update">
-				</td>
-			</form>
+				</form>
+			</td>
 			<td>
 				<form method="POST">
 					<input type="hidden" id="action" name="action" value="delete">

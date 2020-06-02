@@ -188,9 +188,6 @@ def tools():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
-		abort(400) # client error: invalid action
-
 	if action == "add":
 		name      = request.form.get("name")
 		condition = request.form.get("condition")
@@ -207,6 +204,36 @@ def tools():
 			"INSERT INTO tools (name, `condition`, person_id) VALUES (?, ?, ?)",
 			(name, condition, person)
 		)
+	elif action == "name":
+		name = request.form.get("name")
+		tool_id = request.form.get("tool_id")
+
+		if not (name and tool_id):
+			abort(400)
+
+		db.execute("UPDATE tools SET name = ? WHERE tool_id = ?", (name, tool_id))
+	elif action == "check_out":
+		person = request.form.get("person_id")
+		tool_id = request.form.get("tool_id")
+
+		if not (person and tool_id):
+			abort(400)
+
+		# null the fk
+		if person == "checked_in":
+			person = ""
+
+		db.execute("UPDATE tools SET person_id = ? WHERE tool_id = ?", (person, tool_id))
+	elif action == "condition":
+		condition = request.form.get("condition")
+		tool_id = request.form.get("tool_id")
+
+		if not (condition and tool_id):
+			abort(400)
+
+		db.execute("UPDATE tools SET condition = ? WHERE tool_id = ?", (condition, tool_id))
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.tools"))
