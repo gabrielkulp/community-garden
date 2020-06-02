@@ -5,11 +5,10 @@
 		<ul>
 			{% for (route, title) in [
 				('pages.index','Home'),
-				('pages.admin','Administration Home'),
 				('pages.people','People'),
-				('pages.plots','Garden Plots and Plants'),
+				('pages.plots','Plots'),
 				('pages.tools','Tools'),
-				('pages.varieties','Available Varieties')
+				('pages.varieties','Varieties')
 			] %}
 				{% if request.path != url_for(route) %}	
 					<li><a href="{{ url_for(route) }}">{{ title }}</a></li>

@@ -1,16 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'admin-base.html' %}
 
-{% block title %}Tomato Garden{% endblock %}
+{% block title %}Community Garden{% endblock %}
 
 {% block header %}
-	<h1>Tomato Garden</h1>
+	<h1>Community Garden</h1>
 {% endblock %}
 
-{% block content %}
-	<ul>
-		<li><a href="{{ url_for('pages.user') }}">User page</a> for kiosk usage. Dynamic functionality not added yet, but you can see a static preview.</li>
-		<li><a href="{{ url_for('pages.admin') }}">Admin page</a> for staff, not IT. Most db operations are here.</li>
-	</ul>
+{% block controls %}
 	<hr>
 	<p>Team 14 (Boundary Tomato) Members:</p>
 	<ul>

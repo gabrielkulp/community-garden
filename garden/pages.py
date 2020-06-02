@@ -12,18 +12,7 @@ bp = Blueprint("pages", __name__, static_folder="static")
 def index():
 	return render_template("index.html")
 
-
-@bp.route("/user")
-def user():
-	return render_template("user.html")
-
-
-@bp.route("/admin")
-def admin():
-	return render_template("admin.html")
-
-
-@bp.route("/admin/people", methods=["GET", "POST"])
+@bp.route("/people", methods=["GET", "POST"])
 def people():
 	db = get_db()
 
@@ -89,7 +78,7 @@ def people():
 	return redirect(url_for("pages.people"))
 
 
-@bp.route("/admin/plot/<int:id>", methods=["GET", "POST"])
+@bp.route("/plot/<int:id>", methods=["GET", "POST"])
 def plot(id):
 	db = get_db()
 
@@ -129,7 +118,7 @@ def plot(id):
 	return redirect(url_for("pages.plot", id=id))
 
 
-@bp.route("/admin/plots", methods=["GET", "POST"])
+@bp.route("/plots", methods=["GET", "POST"])
 def plots():
 	db = get_db()
 
@@ -226,7 +215,7 @@ def plots():
 	return redirect(url_for("pages.plots"))
 
 
-@bp.route("/admin/tools", methods=["GET", "POST"])
+@bp.route("/tools", methods=["GET", "POST"])
 def tools():
 	db = get_db()
 
@@ -296,7 +285,7 @@ def tools():
 	return redirect(url_for("pages.tools"))
 
 
-@bp.route("/admin/varieties", methods=["GET", "POST"])
+@bp.route("/varieties", methods=["GET", "POST"])
 def varieties():
 	db = get_db()
 
