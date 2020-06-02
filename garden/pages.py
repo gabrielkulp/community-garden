@@ -251,9 +251,6 @@ def varieties():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
-		abort(400) # client error: invalid action
-
 	if action == "add":
 		name   = request.form.get("name")
 		season = request.form.get("season")
@@ -265,6 +262,24 @@ def varieties():
 			"INSERT INTO varieties (name, season) VALUES (?, ?)",
 			(name, season)
 		)
+	elif action == "name":
+		name = request.form.get("name")
+		variety_id = request.form.get("variety_id")
+
+		if not (name and variety_id):
+			abort(400)
+
+		db.execute("UPDATE varieties SET name = ? WHERE variety_id = ?", (name, variety_id))
+	elif action == "season":
+		season = request.form.get("season")
+		variety_id = request.form.get("variety_id")
+
+		if not (season and variety_id):
+			abort(400)
+
+		db.execute("UPDATE varieties SET season = ? WHERE variety_id = ?", (season, variety_id))
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.varieties"))
