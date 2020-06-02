@@ -117,7 +117,7 @@ def plots():
 
 		people = db.execute("SELECT * FROM people").fetchall()
 
-		if query is not "":
+		if query:
 			plots = [x for x in plots if query in x["location"]]
 
 		people_for_plot = {}
@@ -171,7 +171,7 @@ def tools():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
+	if action not in ["add", "delete"]:
 		abort(400) # client error: invalid action
 
 	if action == "add":
@@ -190,6 +190,13 @@ def tools():
 			"INSERT INTO tools (name, `condition`, person_id) VALUES (?, ?, ?)",
 			(name, condition, person)
 		)
+	elif action == "delete":
+		tool_id = request.form.get("tool_id")
+
+		if not tool_id:
+			abort(400) # client error: missing data
+		
+		db.execute("DELETE FROM tools WHERE tool_id = ?", (tool_id,))
 
 	db.commit()
 	return redirect(url_for("pages.tools"))
