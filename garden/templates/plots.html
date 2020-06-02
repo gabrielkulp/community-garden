@@ -45,7 +45,7 @@
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
 						<input type="hidden" id="action" name="action" value="changelocation">
 						<input type="text" required="true" id="location" name="location" value="{{ plot['location'] }}">
-						<input type="submit" value="Change Location">
+						<input type="submit" value="Update Location">
 					</form>
 				</td>
 				<td>
@@ -59,7 +59,7 @@
 							</option>
 						{% endfor %}
 						</select>
-						<input type="submit" value="Change Owners">
+						<input type="submit" value="Update Owners">
 					</form>
 				</td>
 				<td>
@@ -69,7 +69,7 @@
 						<input type="number" required="true" id="length" name="length" value="{{ plot['length'] }}">
 						x
 						<input type="number" required="true" id="width" name="width" value="{{ plot['width'] }}">
-						<input type="submit" value="Change Size">
+						<input type="submit" value="Update Size">
 					</form>
 				</td>
 				<td>
