@@ -20,9 +20,9 @@
 	<table>
 		<tr>
 			<th>Plot Number</th>
+			<th>Owner(s)</th>
 			<th>Location</th>
 			<th>Size (LxW)</th>
-			<th>Manage Plants</th>
 			<th>Delete</th>
 		</tr>
 		{% for plot in plots %}
@@ -39,16 +39,25 @@
 				<td>
 					<form method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
+						<input type="hidden" id="action" name="action" value="changelocation">
+						<select name="owners" multiple>
+						{% for person in people %}
+							<option value="{{ person['person_id'] }}" {% if person['person_id'] in plot_owners[plot['plot_id']] %} selected {% endif %}>
+								{{ person['first_name'] }} {{ person['last_name'] }}
+							</option>
+						{% endfor %}
+						</select>
+						<input type="submit" value="Change Owners">
+					</form>
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
 						<input type="hidden" id="action" name="action" value="changesize">
 						<input type="number" required="true" id="length" name="length" value="{{ plot['length'] }}">
 						x
 						<input type="number" required="true" id="width" name="width" value="{{ plot['width'] }}">
 						<input type="submit" value="Change Size">
-					</form>
-				</td>
-				<td>
-					<form action="plot.html">
-						<input type="submit" value="Manage">
 					</form>
 				</td>
 				<td>
