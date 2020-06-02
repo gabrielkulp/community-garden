@@ -17,6 +17,18 @@
 		<input type="submit" value="Add">
 	</form>
 	<br>
+	<h2>Search by Location</h2>
+	<form action="{{ url_for('pages.plots') }}" method="GET">
+		Query <input required="true" type="text" name="query">
+		<br>
+		<input type="submit" value="Search">
+	</form>
+	<br>
+	{% if query != "" %}
+	Showing search results for "{{ query }}" (<a href="{{ url_for('pages.plots') }}">view all plots</a>):
+	<br>
+	<br>
+	{% endif %}
 	<table>
 		<tr>
 			<th>Plot Number</th>
