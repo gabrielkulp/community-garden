@@ -71,8 +71,18 @@ def plots():
 	db = get_db()
 
 	if request.method == "GET":
-		plots = db.execute("SELECT * FROM plots")
-		return render_template("plots.html", plots=plots)
+		plots = db.execute("""SELECT * FROM plots
+							  INNER JOIN people_plots ON plots.plot_id = people_plots.plot_id
+							  INNER JOIN people ON people_plots.person_id = people.person_id""").fetchall()
+		people = db.execute("SELECT * FROM people").fetchall()
+
+		people_for_plot = {}
+		for p in plots:
+			if p['plot_id'] not in people_for_plot.keys():
+				people_for_plot[p['plot_id']] = []
+			people_for_plot[p['plot_id']].append(p['person_id'])
+
+		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot)
 	
 	action = request.form.get("action")
 
