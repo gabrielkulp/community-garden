@@ -9,6 +9,13 @@
 {% block controls %}
 	<form method="POST">
 		<input type="hidden" id="action" name="action" value="add">
+		<select name="variety_id" required="true">
+			{% for variety in varieties %}
+				<option value="{{ variety['variety_id'] }}">
+					{{ variety['name'] }} ({{ variety['season'] }})
+				</option>
+			{% endfor %}
+		</select>
 		<input type="submit" value="Add new plant">
 	</form>
 	<br>
@@ -23,7 +30,7 @@
 				<td>
 					<form method="POST">
 						<input type="hidden" id="action" name="action" value="delete">
-						<input type="hidden" id="plant_id" name="plant_id" value="{{ plant_id }}">
+						<input type="hidden" id="plant_id" name="plant_id" value="{{ plant['plant_id'] }}">
 						<input type="submit" value="Delete">
 					</form>
 				</td>

@@ -47,6 +47,7 @@ def people():
 			"INSERT INTO people (first_name, last_name, email) VALUES (?, ?, ?)",
 			(first_name, last_name, email)
 		)
+
 	elif action == "first_name":
 		first_name = request.form.get("name")
 		person_id = request.form.get("person_id")
@@ -71,6 +72,16 @@ def people():
 			abort(400)
 
 		db.execute("UPDATE people SET email = ? WHERE person_id = ?", (email, person_id))
+	elif action == "delete":
+		person_id = request.form.get("person_id")
+
+		if not person_id:
+			abort(400) # client error: missing data
+
+		db.execute(
+			"DELETE FROM people WHERE person_id = ?",
+			(person_id,)
+		)
 	else:
 		abort(400)
 
@@ -78,15 +89,44 @@ def people():
 	return redirect(url_for("pages.people"))
 
 
-@bp.route("/admin/plot/<int:id>")
+@bp.route("/admin/plot/<int:id>", methods=["GET", "POST"])
 def plot(id):
 	db = get_db()
-	plants = db.execute("""SELECT * FROM plants
-						   INNER JOIN plots ON plants.plot_id = plots.plot_id
-						   INNER JOIN varieties ON plants.variety_id = varieties.variety_id
-						   WHERE plots.plot_id = ?""", (str(id))).fetchall()
 
-	return render_template("plot.html", plants=plants)
+	if request.method == "GET":
+		plants = db.execute("""SELECT * FROM plants
+							   INNER JOIN plots ON plants.plot_id = plots.plot_id
+							   INNER JOIN varieties ON plants.variety_id = varieties.variety_id
+							   WHERE plots.plot_id = ?""",
+			(str(id))
+		).fetchall()
+		varieties = db.execute("SELECT * FROM varieties").fetchall()
+		return render_template("plot.html", plants=plants, varieties=varieties)
+
+	action = request.form.get("action")
+
+	if action not in ["add", "delete"]:
+		abort(400) # client error: invalid action
+	
+	if action == "add":
+		variety_id = request.form.get("variety_id")
+
+		if not variety_id:
+			abort(400) # client error: missing data
+		
+		db.execute("INSERT INTO plants (variety_id, plot_id) VALUES (?, ?)",
+			(variety_id, id)
+		)
+	elif action == "delete":
+		plant_id = request.form.get("plant_id")
+
+		if not plant_id:
+			abort(400) # client error: missing data
+
+		db.execute("DELETE FROM plants WHERE plant_id = ?", (plant_id,))
+	
+	db.commit()
+	return redirect(url_for("pages.plot", id=id))
 
 
 @bp.route("/admin/plots", methods=["GET", "POST"])
@@ -102,7 +142,7 @@ def plots():
 
 		people = db.execute("SELECT * FROM people").fetchall()
 
-		if query is not "":
+		if query:
 			plots = [x for x in plots if query in x["location"]]
 
 		people_for_plot = {}
@@ -169,7 +209,16 @@ def plots():
 
 		for o in owners:
 			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
+	elif action == "delete":
+		plot_id = request.form.get("plot_id")
 
+		if not plot_id:
+			abort(400) # client error: missing data
+
+		db.execute(
+			"DELETE FROM plots WHERE plot_id = ?",
+			(plot_id,)
+		)
 	else:
 		abort(400) # client error: invalid action
 
@@ -204,6 +253,7 @@ def tools():
 			"INSERT INTO tools (name, `condition`, person_id) VALUES (?, ?, ?)",
 			(name, condition, person)
 		)
+
 	elif action == "name":
 		name = request.form.get("name")
 		tool_id = request.form.get("tool_id")
@@ -232,6 +282,13 @@ def tools():
 			abort(400)
 
 		db.execute("UPDATE tools SET condition = ? WHERE tool_id = ?", (condition, tool_id))
+	elif action == "delete":
+		tool_id = request.form.get("tool_id")
+
+		if not tool_id:
+			abort(400) # client error: missing data
+		
+		db.execute("DELETE FROM tools WHERE tool_id = ?", (tool_id,))
 	else:
 		abort(400)
 
