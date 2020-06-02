@@ -136,8 +136,8 @@ def plots():
 	if request.method == "GET":
 		query = request.args.get("query", default="")
 		plots = db.execute("""SELECT * FROM plots
-							  INNER JOIN people_plots ON plots.plot_id = people_plots.plot_id
-							  INNER JOIN people ON people_plots.person_id = people.person_id
+							  LEFT JOIN people_plots ON plots.plot_id = people_plots.plot_id
+							  LEFT JOIN people ON people_plots.person_id = people.person_id
 							  ORDER BY plot_id ASC""").fetchall()
 
 		people = db.execute("SELECT * FROM people").fetchall()
