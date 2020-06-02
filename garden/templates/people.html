@@ -46,9 +46,9 @@
 				</td>
 				<td>
 					<form method="POST">
-						<input type="hidden" id="person_id" name="person_id" value="2">
+						<input type="hidden" id="person_id" name="person_id" value="{{ person.person_id }}">
 						<input type="hidden" id="action" name="action" value="email">
-						<input type="email" required="true" id="name" name="name" value="{{ person.email }}">
+						<input type="email" required="true" id="email" name="email" value="{{ person.email }}">
 						<input type="submit" value="Update">
 					</form>
 				</td>

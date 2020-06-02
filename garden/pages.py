@@ -35,9 +35,6 @@ def people():
 	
 	action = request.form.get("action")
 
-	if action not in ["add"]:
-		abort(400) # client error: invalid action
-
 	if action == "add":
 		first_name = request.form.get("first_name")
 		last_name  = request.form.get("last_name")
@@ -50,6 +47,32 @@ def people():
 			"INSERT INTO people (first_name, last_name, email) VALUES (?, ?, ?)",
 			(first_name, last_name, email)
 		)
+	elif action == "first_name":
+		first_name = request.form.get("name")
+		person_id = request.form.get("person_id")
+
+		if not first_name:
+			abort(400)
+
+		db.execute("UPDATE people SET first_name = ? WHERE person_id = ?", (first_name, person_id))
+	elif action == "last_name":
+		last_name = request.form.get("name")
+		person_id = request.form.get("person_id")
+
+		if not last_name:
+			abort(400)
+
+		db.execute("UPDATE people SET last_name = ? WHERE person_id = ?", (last_name, person_id))
+	elif action == "email":
+		email = request.form.get("email")
+		person_id = request.form.get("person_id")
+
+		if not email:
+			abort(400)
+
+		db.execute("UPDATE people SET email = ? WHERE person_id = ?", (email, person_id))
+	else:
+		abort(400)
 
 	db.commit()
 	return redirect(url_for("pages.people"))
