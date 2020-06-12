@@ -123,16 +123,17 @@ def plots():
 	db = get_db()
 
 	if request.method == "GET":
-		query = request.args.get("query", default="")
+		query = request.args.get("query", default="%")
+		if query != "%":
+			query = "%" + query + "%"
+
 		plots = db.execute("""SELECT * FROM plots
 							  LEFT JOIN people_plots ON plots.plot_id = people_plots.plot_id
 							  LEFT JOIN people ON people_plots.person_id = people.person_id
-							  ORDER BY plot_id ASC""").fetchall()
+							  WHERE location LIKE ?
+							  ORDER BY plot_id ASC""", (query,)).fetchall()
 
 		people = db.execute("SELECT * FROM people").fetchall()
-
-		if query:
-			plots = [x for x in plots if query in x["location"]]
 
 		people_for_plot = {}
 		for p in plots:
@@ -147,7 +148,7 @@ def plots():
 				dedup.append(p)
 		plots = dedup
 
-		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query)
+		return render_template("plots.html", plots=plots, people=people, plot_owners=people_for_plot, query=query[1:-1])
 
 	# handle POST request
 
