@@ -14,6 +14,15 @@
 		<br>
 		Size <input type="number" required="true" id="length" name="length" placeholder="L"> x <input type="number" required="true" id="width" name="width" placeholder="W">
 		<br>
+		Owner(s)
+		<select name="owners" multiple>
+		{% for person in people %}
+			<option value="{{ person['person_id'] }}">
+				{{ person['first_name'] }} {{ person['last_name'] }}
+			</option>
+		{% endfor %}
+		</select>
+		<br>
 		<input type="submit" value="Add">
 	</form>
 	<br>
