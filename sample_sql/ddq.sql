@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS varieties;
 
 -- DDQs
 CREATE TABLE people (
-	person_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	person_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	first_name VARCHAR(100) NOT NULL,
 	last_name VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE people (
 );
 
 CREATE TABLE plots (
-	plot_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	plot_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	length FLOAT NOT NULL,
 	width FLOAT NOT NULL,
 	location VARCHAR(100) NOT NULL,
@@ -23,14 +23,14 @@ CREATE TABLE plots (
 );
 
 CREATE TABLE varieties (
-	variety_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	variety_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(100) NOT NULL,
 	season VARCHAR(100) NOT NULL,
 	UNIQUE (name)
 );
 
 CREATE TABLE plants (
-	plant_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	plant_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	variety_id INTEGER NOT NULL,
 	plot_id INTEGER NOT NULL,
 	FOREIGN KEY (variety_id) REFERENCES varieties (variety_id),
@@ -38,25 +38,15 @@ CREATE TABLE plants (
 );
 
 CREATE TABLE tools (
-	tool_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	tool_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(100) NOT NULL,
-	checked_out BOOLEAN NOT NULL DEFAULT (FALSE),
 	`condition` INTEGER NOT NULL DEFAULT (1), -- condition is reserved word
-	/* condition enum:
-		1 -> New
-		2 -> Great
-		3 -> Good
-		4 -> Fair
-		5 -> Poor
-		6 -> Broken
-       (not using MariaDB enum b/c final impl will be in SQLite)
-	*/
-	person_id INTEGER, -- no not null b/c can be not checked out
+	person_id INTEGER, -- nullable b/c can be not checked out
 	FOREIGN KEY (person_id) REFERENCES people (person_id)
 );
 
 CREATE TABLE people_plots (
-	people_plot_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	people_plot_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	person_id INTEGER NOT NULL,
 	plot_id INTEGER NOT NULL,
 	FOREIGN KEY (person_id) REFERENCES people (person_id),
@@ -114,9 +104,9 @@ INSERT INTO plants (variety_id, plot_id) VALUES ((
 
 -- Add Tools (M:1 with People)
 INSERT INTO tools (name, `condition`) VALUES ('Trowel', 3);
-INSERT INTO tools (name, checked_out, `condition`, person_id) VALUES ('Watering can', TRUE, 4, (
+INSERT INTO tools (name, `condition`, person_id) VALUES ('Watering can', 4, (
 	SELECT person_id FROM people WHERE first_name = 'Harold' and last_name = 'Miller'
 ));
-INSERT INTO tools (name, checked_out, `condition`, person_id) VALUES ('Shears', TRUE, 1, (
+INSERT INTO tools (name, `condition`, person_id) VALUES ('Shears', 1, (
 	SELECT person_id FROM people WHERE first_name = 'Nancy' and last_name = 'Mulligan'
 ));
