@@ -169,7 +169,6 @@ def plots():
 		)
 
 		plot_id = cursor.lastrowid
-		print(plot_id)
 		
 		for o in owners:
 			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
