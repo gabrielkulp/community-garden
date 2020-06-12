@@ -21,7 +21,7 @@
 			<option value="6">Broken</option>
 		</select>
 		<br>
-		Checked Out To (can be null) <select required="true" id="person" name="person">
+		Checked Out To <select required="true" id="person" name="person">
 			<option value="-1">Checked In</option>
 			{% for person in people %}
 				<option value="{{ person['person_id'] }}">

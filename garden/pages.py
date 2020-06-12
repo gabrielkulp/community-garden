@@ -157,14 +157,22 @@ def plots():
 		location = request.form.get("location")
 		length   = request.form.get("length")
 		width    = request.form.get("width")
+		owners = request.form.getlist("owners")
 	
 		if not (location and length and width):
 			abort(400) # client error: missing data
-	
-		db.execute(
+
+		cursor = db.cursor()	
+		cursor.execute(
 			"INSERT INTO plots (length, width, location) VALUES (?, ?, ?)",
 			(length, width, location)
 		)
+
+		plot_id = cursor.lastrowid
+		print(plot_id)
+		
+		for o in owners:
+			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
 	elif action == "changelocation":
 		location = request.form.get("location")
 		plot_id = request.form.get("plot_id")
