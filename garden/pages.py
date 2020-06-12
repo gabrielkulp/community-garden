@@ -324,6 +324,14 @@ def varieties():
 			abort(400)
 
 		db.execute("UPDATE varieties SET season = ? WHERE variety_id = ?", (season, variety_id))
+	elif action == "delete":
+		variety_id = request.form.get("variety_id")
+
+		if not variety_id:
+			abort(400)
+
+		db.execute("DELETE FROM plants WHERE variety_id = ?", (variety_id))
+		db.execute("DELETE FROM varieties WHERE variety_id = ?", (variety_id))
 	else:
 		abort(400)
 
