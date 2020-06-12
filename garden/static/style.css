@@ -75,10 +75,12 @@ input[type=text], input[type=email], input[type=number] {
 	color: #aaa;
 	padding: 6px 10px;
 	margin: 8px 0;
+	border: none;
 }
 
 input[type=number] {
-	width: 80px;
+	width: 100px;
+	border: none;
 }
 
 input[type=button], input[type=submit], input[type=reset] {
@@ -103,4 +105,5 @@ aside,
 select {
 	background-color: #333;
 	color: #aaa;
+	border: none;
 }
