@@ -40,19 +40,18 @@
 	{% endif %}
 	<table>
 		<tr>
-			<th>Plot Number</th>
 			<th>Location</th>
 			<th>Owner(s)</th>
+			<th>Manage Plants</th>
 			<th>Size (LxW)</th>
 			<th>Delete</th>
 		</tr>
 		{% for plot in plots %}
 			<tr>
-				<td><a href="{{ url_for('pages.plot', id=plot['plot_id']) }}">Plot {{ plot['plot_id'] }}</a></td>
 				<td>
 					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
-						<input type="hidden" id="action" name="action" value="changelocation">
+						<input type="hidden" id="action" name="action" value="location">
 						<input type="text" required="true" id="location" name="location" value="{{ plot['location'] }}">
 						<input type="submit" value="Update Location">
 					</form>
@@ -60,7 +59,7 @@
 				<td>
 					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
-						<input type="hidden" id="action" name="action" value="changeowners">
+						<input type="hidden" id="action" name="action" value="owners">
 						<select name="owners" multiple>
 						{% for person in people %}
 							<option value="{{ person['person_id'] }}" {% if person['person_id'] in plot_owners[plot['plot_id']] %} selected {% endif %}>
@@ -71,10 +70,11 @@
 						<input type="submit" value="Update Owners">
 					</form>
 				</td>
+				<td><a href="{{ url_for('pages.plot', id=plot['plot_id']) }}">Manage</a></td>
 				<td>
 					<form action="{{ url_for('pages.plots') }}" method="POST">
 						<input type="hidden" id="plot_id" name="plot_id" value="{{ plot['plot_id'] }}">
-						<input type="hidden" id="action" name="action" value="changesize">
+						<input type="hidden" id="action" name="action" value="size">
 						<input type="number" required="true" id="length" name="length" value="{{ plot['length'] }}">
 						x
 						<input type="number" required="true" id="width" name="width" value="{{ plot['width'] }}">

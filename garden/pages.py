@@ -173,14 +173,14 @@ def plots():
 		
 		for o in owners:
 			db.execute("INSERT INTO people_plots (plot_id, person_id) VALUES (?, ?)", (plot_id, o))
-	elif action == "changelocation":
+	elif action == "location":
 		location = request.form.get("location")
 		plot_id = request.form.get("plot_id")
 		if not location:
 			abort(400)
 
 		db.execute("UPDATE plots SET location = ? WHERE plot_id = ?", (location, plot_id))
-	elif action == "changesize":
+	elif action == "size":
 		length   = request.form.get("length")
 		width    = request.form.get("width")
 		plot_id = request.form.get("plot_id")
@@ -198,7 +198,7 @@ def plots():
 			abort(400)
 		
 		db.execute("UPDATE plots SET width = ?, length = ? WHERE plot_id = ?", (width, length, plot_id))
-	elif action == "changeowners":
+	elif action == "owners":
 		owners = request.form.getlist("owners")
 		plot_id = request.form.get("plot_id")
 
