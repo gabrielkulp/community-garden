@@ -99,3 +99,8 @@ aside,
 	border: 1px solid lightgrey;
 	padding: 5px 15px;
 }
+
+select {
+	background-color: #333;
+	color: #aaa;
+}
